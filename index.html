@@ -1,0 +1,87 @@
+---
+layout: default
+nav: profile
+title: Academic Profile
+---
+{% assign p = site.data.profile %}
+<section class="hero" id="top" aria-labelledby="name">
+ <div class="wrap hero-in">
+  <div>
+   <h1 id="name">{{ p.name }}</h1>
+   <p class="role">{{ p.role }}, {{ p.affiliation }}</p>
+   <p class="tagline">{{ p.tagline }}</p>
+   <p class="lede">{{ p.intro }}</p>
+   <div class="btns">
+    <a class="btn primary" href="#research">View Research</a>
+    <a class="btn" href="{{ p.cv_file | relative_url }}" download>Download CV</a>
+    <a class="btn" href="#contact">Contact</a>
+   </div>
+   <p class="meta" style="margin-top:1rem"><a href="{{ p.cv_file | relative_url }}" target="_blank" rel="noopener">View CV in browser</a></p>
+  </div>
+  <svg class="tree" viewBox="0 0 300 250" role="img" aria-labelledby="tt">
+   <title id="tt">Diagram of a hierarchy: one root, four specializations, sixteen diseases, as in my thesis classification task</title>
+   {% assign mids = "45,115,185,255" | split: "," %}
+   {% for m in mids %}{% assign mx = m | plus: 0 %}
+    <line x1="150" y1="28" x2="{{ mx }}" y2="110"/>
+    {% for j in (0..3) %}{% assign lx = j | times: 16 | plus: mx | minus: 24 %}<line x1="{{ mx }}" y1="110" x2="{{ lx }}" y2="190"/><circle class="n3" cx="{{ lx }}" cy="190" r="5"/>{% endfor %}
+    <circle class="n2" cx="{{ mx }}" cy="110" r="8"/>
+   {% endfor %}
+   <circle class="n1" cx="150" cy="28" r="11"/>
+   <text x="150" y="230" text-anchor="middle">4 specializations · 16 diseases</text>
+  </svg>
+ </div>
+</section>
+
+<section id="about"><div class="wrap"><h2>About me</h2>
+ {% for para in p.about %}<p class="prose">{{ para }}</p>{% endfor %}
+</div></section>
+
+<section id="interests"><div class="wrap"><h2>Research interests</h2>
+ <p class="prose">{{ p.interests_intro }}</p>
+ <div class="grid">{% for i in p.interests %}
+  <article class="card"><h3>{{ i.title }}</h3><p>{{ i.text }}</p><p class="q">{{ i.question }}</p></article>{% endfor %}
+ </div>
+</div></section>
+
+<section id="research"><div class="wrap"><h2>Research experience and publications</h2>
+ {% for r in p.research %}
+ <article class="paper">
+  <h3>{{ r.title }}</h3>
+  <p class="meta">{{ r.where }}, {{ r.period }}</p>
+  <span class="status">{{ r.status }}</span>
+  <dl><dt>Problem</dt><dd>{{ r.problem }}</dd><dt>Contribution</dt><dd>{{ r.contribution }}</dd><dt>Methods</dt><dd>{{ r.methods }}</dd>
+  {% assign ls = r.links | where_exp: "l", "l.url != ''" %}{% if ls.size > 0 %}<dt>Links</dt><dd>{% for l in ls %}<a href="{{ l.url }}">{{ l.label }}</a>{% unless forloop.last %}, {% endunless %}{% endfor %}</dd>{% endif %}</dl>
+ </article>{% endfor %}
+ <h3>Publications</h3>
+ <ul class="pubs">{% for b in p.publications %}
+  <li>{% if b.url != "" %}<a href="{{ b.url }}">{{ b.title }}</a>{% else %}{{ b.title }}{% endif %}.<br><span class="meta">{{ b.venue }}. {{ b.status }}.</span></li>{% endfor %}
+ </ul>
+</div></section>
+
+<section id="projects"><div class="wrap"><h2>Selected projects</h2>
+ <div class="grid">{% for j in p.projects %}
+  <article class="card"><h3>{% if j.url != "" %}<a href="{{ j.url }}">{{ j.title }}</a>{% else %}{{ j.title }}{% endif %}</h3><p>{{ j.text }}</p><p class="meta">{{ j.stack }}</p></article>{% endfor %}
+ </div>
+</div></section>
+
+<section id="education"><div class="wrap"><h2>Education</h2>
+ <ul class="tl">{% for e in p.education %}<li><span class="d">{{ e.date }}</span><div><h3>{{ e.degree }}</h3><p class="meta">{{ e.school }}</p><p>{{ e.detail }}</p></div></li>{% endfor %}</ul>
+</div></section>
+
+<section id="experience"><div class="wrap"><h2>Teaching and professional experience</h2>
+ <ul class="tl">{% for e in p.experience %}<li><span class="d">{{ e.date }}</span><div><h3>{{ e.role }}</h3><p class="meta">{{ e.org }}</p><ul>{% for pt in e.points %}<li>{{ pt }}</li>{% endfor %}</ul></div></li>{% endfor %}</ul>
+</div></section>
+
+<section id="skills"><div class="wrap cols">
+ <div><h2>Skills</h2><dl class="skills">{% for s in p.skills %}<dt>{{ s.group }}</dt><dd>{{ s.items }}</dd>{% endfor %}</dl></div>
+ <div><h2>Achievements</h2><ul>{% for a in p.achievements %}<li>{{ a }}</li>{% endfor %}</ul></div>
+</div></section>
+
+<section id="contact"><div class="wrap"><h2>Contact and academic profiles</h2>
+ <ul class="contact-list">
+  <li>Email: <a href="mailto:{{ p.contact.email }}">{{ p.contact.email }}</a></li>
+  {% if p.contact.phone != "" %}<li>Phone: {{ p.contact.phone }}</li>{% endif %}
+  {% for l in p.contact.links %}{% if l.url != "" %}<li>{{ l.label }}: <a href="{{ l.url }}">{{ l.url | remove: "https://" }}</a></li>{% endif %}{% endfor %}
+  <li>CV: <a href="{{ p.cv_file | relative_url }}" download>download</a> or <a href="{{ p.cv_file | relative_url }}" target="_blank" rel="noopener">view in browser</a></li>
+ </ul>
+</div></section>
