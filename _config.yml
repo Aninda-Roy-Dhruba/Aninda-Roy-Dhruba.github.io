@@ -4,7 +4,7 @@ description: "Academic portfolio of Aninda Roy Dhruba, a Computer Science resear
 lang: en
 # User site (username.github.io):   url: https://USERNAME.github.io   baseurl: ""
 # Project site (repo called "portfolio"): url: https://USERNAME.github.io   baseurl: "/portfolio"
-url: "https://USERNAME.github.io"
+url: "https://Aninda-Roy-Dhruba.github.io"
 baseurl: ""
 plugins: [jekyll-seo-tag]
 collections:
